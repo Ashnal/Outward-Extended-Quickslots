@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Mono.Cecil;
 using MonoMod.InlineRT;
 using System.Linq;
-using Rewired;
 
 
 
