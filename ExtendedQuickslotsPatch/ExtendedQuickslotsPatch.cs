@@ -4,15 +4,14 @@ using Mono.Cecil;
 using MonoMod.InlineRT;
 using System.Linq;
 
-
-
 namespace MonoMod
 {
     internal static class MonoModRules
     {
-        [MonoModPatch("")]
-        public class PatchSomething
+        [MonoModPatch("ExtendedQuickslotsPatch")]
+        public class TriggerRulesProcessing
         {
+            //Empty class required to trigger MonoMod's rules processing.
         }
 
         static MonoModRules()
@@ -23,26 +22,29 @@ namespace MonoMod
 
         public static void PostProcessor(MonoModder modder)
         {
-            List<string> types = new List<string>() { "RewiredInputs", "LocalizationManager", "ControlMappingPanel", "CharacterQuickSlotManager", "ControlsInput"};
+            List<string> typesToPatch = new List<string>() {
+                "RewiredInputs",
+                "LocalizationManager",
+                "ControlMappingPanel",
+                "CharacterQuickSlotManager",
+                "ControlsInput"
+            };
 
+            /*
             foreach (TypeDefinition t in modder.Module.Types)
             {
-                //Console.WriteLine("Found type: " + t.Name);
+                Console.WriteLine("Found type: " + t.Name);
             }
+            */
 
             var typeDefinitions = from TypeDefinition t in modder.Module.Types
-                                  where types.Contains(t.Name)
+                                  where typesToPatch.Contains(t.Name)
                                   select t;
 
             foreach (TypeDefinition typeDefinition in typeDefinitions)
             {
                 MonoModRules.PostProcessType(modder, typeDefinition);
             }
-
-
-            //MonoModRules.PostProcessType(modder, new TypeDefinition(typeof(Projectile).Namespace, "Projectile", TypeAttributes.Class | TypeAttributes.Public));
-            //MonoModRules.PostProcessType(modder, new TypeDefinition(typeof(Weapon).Namespace, "Weapon", TypeAttributes.Class | TypeAttributes.Public));
-            //MonoModRules.PostProcessType(modder, new TypeDefinition(typeof(TargetingSystem).Namespace, "TargetingSystem", TypeAttributes.Class | TypeAttributes.Public));
         }
 
         private static void PostProcessType(MonoModder modder, TypeDefinition type)

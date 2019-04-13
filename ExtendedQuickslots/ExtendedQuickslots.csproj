@@ -61,6 +61,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Prefix_KeyboardQuickSlotPanel_InitializeQuickSlotDisplays.cs" />
+    <Compile Include="Postfix_LocalizationManager_StartLoading.cs" />
+    <Compile Include="Prefix_ControlMappingPanel_InitMappings.cs" />
+    <Compile Include="Prefix_InputManager_Base_Initialize.cs" />
+    <Compile Include="Prefix_LocalCharacterControl_UpdateQuickSlots.cs" />
+    <Compile Include="Prefix_CharacterQuickSlotManager_Awake.cs" />
     <Compile Include="ExtendedQuickslots.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -81,7 +87,6 @@ copy $(TargetFileName) %25OutwardPath%25\Mods
 powershell.exe -nologo -noprofile -command "Compress-Archive -Path ..\..\..\..\..\$(ProjectName)\* -DestinationPath ..\..\..\..\$(ProjectName).zip"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>
-del ..\..\..\..\ExtendedQuickslots.zip</PreBuildEvent>
+    <PreBuildEvent>del ..\..\..\..\$(ProjectName).zip</PreBuildEvent>
   </PropertyGroup>
 </Project>
