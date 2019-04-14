@@ -72,18 +72,16 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>SET OutwardPath=D:\SteamLibrary\SteamApps\common\Outward
-
+    <PostBuildEvent>SET APPID=794260
+echo AppID: %25APPID%25
+SET command=%25SystemRoot%25\sysnative\WindowsPowerShell\v1.0\powershell.exe -command "Get-ItemPropertyValue 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App %25APPID%25' -Name InstallLocation" 
+for /f %25%25i in ('%25command%25') do set installPath=%25%25i
+echo InstallPath: %25installPath%25
 SET buildMods=..\..\..\..\Mods
-
 echo copying $(TargetFileName) to %25buildMods%25
-
 copy $(TargetFileName) %25buildMods%25
-
-echo copying $(TargetFileName) to %25OutwardPath%25\Mods
-
-copy $(TargetFileName) %25OutwardPath%25\Mods
-
+echo copying %25buildMods%25\* to %25installPath%25\Mods
+copy %25buildMods%25\* %25installPath%25\Mods
 powershell.exe -nologo -noprofile -command "Compress-Archive -Path ..\..\..\..\..\$(ProjectName)\* -DestinationPath ..\..\..\..\$(ProjectName).zip"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>

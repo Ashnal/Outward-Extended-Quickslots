@@ -51,11 +51,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>SET OutwardPath=D:\SteamLibrary\SteamApps\common\Outward
-SET buildMods=..\..\..\..\Mods
+    <PostBuildEvent>SET buildMods=..\..\..\..\Mods
 echo copying $(TargetFileName) to %25buildMods%25
-copy $(TargetFileName) %25buildMods%25
-echo copying $(TargetFileName) to %25OutwardPath%25\Mods
-copy $(TargetFileName) %25OutwardPath%25\Mods</PostBuildEvent>
+copy $(TargetFileName) %25buildMods%25</PostBuildEvent>
   </PropertyGroup>
 </Project>
