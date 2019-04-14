@@ -15,7 +15,7 @@ namespace ExtendedQuickslots
         public ExtendedQuickslots()
         {
             ModID = "Extended Quickslots";
-            Version = "1.0.0";
+            Version = "1.0.1";
             author = "Stimmedcow, Ashnal";
         }
 
