@@ -21,7 +21,6 @@ namespace ExtendedQuickslots
 
         public override void Init()
         {
-
             string[] configFileContents = File.ReadAllLines(@"Mods/ExtendedQuickslots_Config.txt");
 
             if (!Int32.TryParse(configFileContents[0].Substring(9), out numSlots))

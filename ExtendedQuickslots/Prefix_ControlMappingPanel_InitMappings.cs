@@ -9,12 +9,20 @@ namespace ExtendedQuickslots
     [HarmonyPatch("InitMappings")]
     public static class Prefix_ControlMappingPanel_InitMappings
     {
-        [HarmonyPrefix]
-        public static bool InitMappingsPrefix(ControlMappingPanel __instance)
+        public static FastInvokeHandler ControlMappingPanel_InitSections = null;
+        static void Prepare()
         {
-            if (__instance.m_sectionTemplate)
+            ControlMappingPanel_InitSections = MethodInvoker.GetHandler(
+                AccessTools.Method(typeof(ControlMappingPanel), "InitSections")
+            );
+        }
+
+        [HarmonyPrefix]
+        public static bool InitMappingsPrefix(ControlMappingPanel __instance, ref ControlMappingSection ___m_sectionTemplate, ref bool ___m_mappingInitialized, ref Controller ___m_lastJoystickController)
+        {
+            if (___m_sectionTemplate)
             {
-                __instance.m_sectionTemplate.gameObject.SetActive(true);
+                ___m_sectionTemplate.gameObject.SetActive(true);
                 foreach (InputMapCategory inputMapCategory in ReInput.mapping.UserAssignableMapCategories)
                 {
                     if (__instance.ControllerType == ControlMappingPanel.ControlType.Keyboard)
@@ -54,20 +62,20 @@ namespace ExtendedQuickslots
                             mouseMapInstance.CreateElementMap(elementAssignment, out actionElementMap);
                         }
 
-                        __instance.InitSections(keyboardMapInstance);
-                        __instance.InitSections(mouseMapInstance);
+                        ControlMappingPanel_InitSections(__instance, new object[] { keyboardMapInstance });
+                        ControlMappingPanel_InitSections(__instance, new object[] { mouseMapInstance });
                     }
-                    else if (__instance.m_lastJoystickController != null)
+                    else if (___m_lastJoystickController != null)
                     {
-                        JoystickMap joystickMapInstance = ReInput.mapping.GetJoystickMapInstance((Joystick)__instance.m_lastJoystickController, inputMapCategory.id, 0);
-                        __instance.InitSections(joystickMapInstance);
+                        JoystickMap joystickMapInstance = ReInput.mapping.GetJoystickMapInstance((Joystick)___m_lastJoystickController, inputMapCategory.id, 0);
+                        ControlMappingPanel_InitSections(__instance, new object[] { joystickMapInstance });
                     }
                     else
                     {
-                        __instance.m_mappingInitialized = false;
+                        ___m_mappingInitialized = false;
                     }
                 }
-                __instance.m_sectionTemplate.gameObject.SetActive(false);
+                ___m_sectionTemplate.gameObject.SetActive(false);
             }
             return false;
         }

@@ -49,6 +49,14 @@
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\Outward_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\bin\Mono.Cecil.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MonoMod">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\bin\MonoMod.exe</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Partiality">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\bin\Partiality.dll</HintPath>
       <Private>False</Private>

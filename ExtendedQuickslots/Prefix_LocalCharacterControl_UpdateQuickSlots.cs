@@ -1,4 +1,5 @@
 ﻿using Harmony;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ExtendedQuickslots
@@ -8,6 +9,12 @@ namespace ExtendedQuickslots
     [HarmonyPatch("UpdateQuickSlots")]
     public static class Prefix_LocalCharacterControl_UpdateQuickSlots
     {
+        static Dictionary<int, RewiredInputs> m_playerInputManager;
+        static void Prepare()
+        {
+            m_playerInputManager = (Dictionary<int, RewiredInputs>)AccessTools.Field(typeof(ControlsInput), "m_playerInputManager").GetValue(null);
+        }
+
         [HarmonyPrefix]
         public static bool UpdateQuickSlotsPrefix(LocalCharacterControl __instance)
         {
@@ -20,11 +27,11 @@ namespace ExtendedQuickslots
                     __instance.Character.QuickSlotMngr.ShowQuickSlotSection2 = ControlsInput.QuickSlotToggle2(playerID);
                 }
 
-                if (ControlsInput.m_playerInputManager[playerID].GetButtonDown("Sit_Emote"))
+                if (m_playerInputManager[playerID].GetButtonDown("Sit_Emote"))
                 {
                     __instance.Character.CastSpell(Character.SpellCastType.Sit, __instance.Character.gameObject, Character.SpellCastModifier.Immobilized, 1, -1f);
                 }
-                else if (ControlsInput.m_playerInputManager[playerID].GetButtonDown("Alternate_Idle_Emote"))
+                else if (m_playerInputManager[playerID].GetButtonDown("Alternate_Idle_Emote"))
                 {
                     __instance.Character.CastSpell(Character.SpellCastType.IdleAlternate, __instance.Character.gameObject, Character.SpellCastModifier.Immobilized, 1, -1f);
                 }
@@ -65,7 +72,7 @@ namespace ExtendedQuickslots
                     //Debug.Log("ExtendedQuickslots - UpdateQuickSlotsPatch() else");
                     for (var x = 0; x < ExtendedQuickslots.numSlots; ++x)
                     {
-                        bool inputRecieved = ControlsInput.m_playerInputManager[playerID].GetButtonDown(string.Format("QS_Instant{0}", x + 12));
+                        bool inputRecieved = m_playerInputManager[playerID].GetButtonDown(string.Format("QS_Instant{0}", x + 12));
                         //Debug.Log(string.Format("Checking QS_Instant{0}: {1}", x+12, inputRecieved));
                         if (inputRecieved)
                         {

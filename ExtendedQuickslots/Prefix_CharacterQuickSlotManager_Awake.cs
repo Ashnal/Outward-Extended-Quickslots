@@ -9,10 +9,10 @@ namespace ExtendedQuickslots
     public static class Prefix_CharacterQuickSlotManager_Awake
     {
         [HarmonyPrefix]
-        public static bool AwakePrefix(CharacterQuickSlotManager __instance)
+        public static bool AwakePrefix(CharacterQuickSlotManager __instance, ref QuickSlot[] ___m_quickSlots, ref Character ___m_character, ref Transform ___m_quickslotTrans)
         {
-            __instance.m_character = __instance.GetComponent<Character>();
-            __instance.m_quickslotTrans = __instance.transform.Find("QuickSlots");
+            ___m_character = __instance.GetComponent<Character>();
+            ___m_quickslotTrans = __instance.transform.Find("QuickSlots");
             // Add our 8 QuickSlots
             for (var x = 0; x < ExtendedQuickslots.numSlots; ++x)
             {
@@ -22,19 +22,19 @@ namespace ExtendedQuickslots
                 QuickSlot qs = gameObject.AddComponent<QuickSlot>();
                 qs.name = string.Format("{0}", x + 12);
                 // Set the parent so the code below will find the new objects and treat them like the originals
-                gameObject.transform.SetParent(__instance.m_quickslotTrans);
+                gameObject.transform.SetParent(___m_quickslotTrans);
             }
-            QuickSlot[] componentsInChildren = __instance.m_quickslotTrans.GetComponentsInChildren<QuickSlot>();
-            __instance.m_quickSlots = new QuickSlot[componentsInChildren.Length];
+            QuickSlot[] componentsInChildren = ___m_quickslotTrans.GetComponentsInChildren<QuickSlot>();
+            ___m_quickSlots = new QuickSlot[componentsInChildren.Length];
             for (int i = 0; i < componentsInChildren.Length; i++)
             {
                 int num = int.Parse(componentsInChildren[i].name);
-                __instance.m_quickSlots[num - 1] = componentsInChildren[i];
-                __instance.m_quickSlots[num - 1].Index = num - 1;
+                ___m_quickSlots[num - 1] = componentsInChildren[i];
+                ___m_quickSlots[num - 1].Index = num - 1;
             }
-            for (int j = 0; j < __instance.m_quickSlots.Length; j++)
+            for (int j = 0; j < ___m_quickSlots.Length; j++)
             {
-                __instance.m_quickSlots[j].SetOwner(__instance.m_character);
+                ___m_quickSlots[j].SetOwner(___m_character);
             }
             return false;
         }

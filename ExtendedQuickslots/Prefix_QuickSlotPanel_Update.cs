@@ -1,6 +1,5 @@
 ﻿using Harmony;
 using UnityEngine;
-using System.Reflection;
 
 namespace ExtendedQuickslots
 {
