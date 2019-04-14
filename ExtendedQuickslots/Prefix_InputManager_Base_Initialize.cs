@@ -18,7 +18,7 @@ namespace ExtendedQuickslots
             List<InputAction> actions_Copy;
             Traverse inputActionTrav;
 
-            for (var x = 0; x < 8; ++x)
+            for (var x = 0; x < ExtendedQuickslots.numSlots; ++x)
             {
                 // Add an action to the QuickSlot category (see 'Rewired_actions.txt')
                 __instance.userData.AddAction(2);

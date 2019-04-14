@@ -12,9 +12,9 @@ namespace ExtendedQuickslots
         public static bool InitializeQuickSlotDisplaysPatch(KeyboardQuickSlotPanel __instance)
         {
             // Add 8 new quickslot ids to the array and assign them the new ids we added.
-            Array.Resize(ref __instance.DisplayOrder, __instance.DisplayOrder.Length + 8);
+            Array.Resize(ref __instance.DisplayOrder, __instance.DisplayOrder.Length + ExtendedQuickslots.numSlots);
             int s = 12;
-            for (int x = 8; x >= 1; x--)
+            for (int x = ExtendedQuickslots.numSlots; x >= 1; x--)
             {
                 __instance.DisplayOrder[__instance.DisplayOrder.Length - x] = (QuickSlot.QuickSlotIDs)s++;
             }

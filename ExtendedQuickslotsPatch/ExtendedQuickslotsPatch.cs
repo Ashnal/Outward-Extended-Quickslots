@@ -28,6 +28,8 @@ namespace MonoMod
                 "ControlMappingPanel",
                 "CharacterQuickSlotManager",
                 "ControlsInput"
+                //"QuickSlotPanel"
+                //"UIElement"
             };
 
             /*
