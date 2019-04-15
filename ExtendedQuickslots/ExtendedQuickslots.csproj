@@ -94,7 +94,9 @@ echo copying $(TargetFileName) to "%25buildMods%25"
 copy $(TargetFileName) "%25buildMods%25"
 echo copying "%25buildMods%25\*" to "%25installPath%25\Mods"
 copy "%25buildMods%25\*" "%25installPath%25\Mods"
-powershell.exe -nologo -noprofile -command "Compress-Archive -Path ..\..\..\..\..\$(ProjectName)\* -DestinationPath ..\..\..\..\$(ProjectName).zip"</PostBuildEvent>
+powershell.exe -nologo -noprofile -command "gci ..\..\..\..\..\$(ProjectName) | ? Name -NE source | Compress-Archive -DestinationPath ..\..\..\..\$(ProjectName).zip"
+powershell.exe -nologo -noprofile -command "Compress-Archive -Path ..\..\..\..\..\$(ProjectName)\Mods,..\..\..\..\..\$(ProjectName)\ModDependencies -DestinationPath ..\..\..\..\$(ProjectName)DllsOnly.zip"
+powershell.exe -nologo -noprofile -command "Compress-Archive -Path ..\..\..\..\..\$(ProjectName)\source -DestinationPath ..\..\..\..\$(ProjectName)Source.zip"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>del ..\..\..\..\$(ProjectName).zip</PreBuildEvent>
