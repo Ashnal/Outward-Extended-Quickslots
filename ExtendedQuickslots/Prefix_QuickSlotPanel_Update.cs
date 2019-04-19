@@ -8,10 +8,10 @@ namespace ExtendedQuickslots
     [HarmonyPatch("Update")]
     public static class Prefix_QuickSlotPanel_Update
     {
-        public static FastInvokeHandler UIElementUpdate = null;
+        public static FastInvokeHandler UIElement_Update = null;
         static void Prepare()
         {
-            UIElementUpdate = MethodInvoker.GetHandler(
+            UIElement_Update = MethodInvoker.GetHandler(
                 AccessTools.Method(typeof(UIElement), "Update")
             );
         }
@@ -20,7 +20,7 @@ namespace ExtendedQuickslots
         public static bool UpdatePrefix(QuickSlotPanel __instance, ref Character ___m_lastCharacter, ref bool ___m_initialized, ref QuickSlotDisplay[] ___m_quickSlotDisplays, ref bool ___m_active)
         {
             UIElement instanceBase = __instance as UIElement;
-            UIElementUpdate(__instance, new object[] { });
+            UIElement_Update(__instance, new object[] { });
 
             if ((instanceBase.LocalCharacter == null || ___m_lastCharacter != instanceBase.LocalCharacter) && ___m_initialized)
             {
@@ -62,7 +62,7 @@ namespace ExtendedQuickslots
                     float newY = stabilityDisplayCorners[1].y + stabilityDisplayCorners[0].y;
                     instanceBase.transform.parent.position = new Vector3(instanceBase.transform.parent.position.x, newY, instanceBase.transform.parent.position.z);
                     // Logic to center the panel so the look and feel is more consistent with normal games
-                    if (ExtendedQuickslots.centerBar)
+                    if (ExtendedQuickslots.CenteredQuickslotUI.Value)
                     {
                         Vector3[] v0 = new Vector3[4];
                         Vector3[] v1 = new Vector3[4];
@@ -78,6 +78,8 @@ namespace ExtendedQuickslots
                         var realWidth = elemWidth * ___m_quickSlotDisplays.Length;
                         // Re-center it based on actual content
                         instanceBase.transform.parent.position = new Vector3(realWidth / 2.0f + elemWidth / 2.0f, instanceBase.transform.parent.position.y, instanceBase.transform.parent.position.z);
+                        // Scale based on the config
+                        //instanceBase.transform.parent.localScale += new Vector3(ExtendedQuickslots.QuickslotUIScale.Value, ExtendedQuickslots.QuickslotUIScale.Value);
                     }
                 }
             }

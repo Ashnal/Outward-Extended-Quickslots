@@ -70,7 +70,7 @@ namespace ExtendedQuickslots
                 else
                 {
                     //Debug.Log("ExtendedQuickslots - UpdateQuickSlotsPatch() else");
-                    for (var x = 0; x < ExtendedQuickslots.numSlots; ++x)
+                    for (var x = 0; x < ExtendedQuickslots.NumberOfExtraSlotsToAdd.Value; ++x)
                     {
                         bool inputRecieved = m_playerInputManager[playerID].GetButtonDown(string.Format("QS_Instant{0}", x + 12));
                         //Debug.Log(string.Format("Checking QS_Instant{0}: {1}", x+12, inputRecieved));

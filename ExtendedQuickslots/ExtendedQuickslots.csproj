@@ -79,13 +79,12 @@ echo AppID: %25APPID%25
 SET command=%25systemroot%25\sysnative\WindowsPowerShell\v1.0\powershell.exe -command "Get-ItemPropertyValue 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App %25APPID%25' -Name InstallLocation" 
 for /f "tokens=*" %25%25i in ('%25command%25') do set installPath=%25%25i
 echo InstallPath: "%25installPath%25"
-SET buildMods=..\..\..\..\Mods
+SET buildMods=..\..\..\..\BepInEx\plugins
 echo copying $(TargetFileName) to "%25buildMods%25"
 copy $(TargetFileName) "%25buildMods%25"
 echo copying "%25buildMods%25\*" to "%25installPath%25\BepInEx\plugins"
 copy "%25buildMods%25\*" "%25installPath%25\BepInEx\plugins"
-powershell.exe -nologo -noprofile -command "gci ..\..\..\..\..\$(ProjectName) | ? Name -NE source | Compress-Archive -DestinationPath ..\..\..\..\$(ProjectName).zip"
-powershell.exe -nologo -noprofile -command "Compress-Archive -Path ..\..\..\..\..\$(ProjectName)\Mods,..\..\..\..\..\$(ProjectName)\ModDependencies -DestinationPath ..\..\..\..\$(ProjectName)DllsOnly.zip"
+powershell.exe -nologo -noprofile -command "Compress-Archive -Path ..\..\..\..\..\$(ProjectName)\BepInEx -DestinationPath ..\..\..\..\$(ProjectName).zip"
 powershell.exe -nologo -noprofile -command "Compress-Archive -Path ..\..\..\..\..\$(ProjectName)\source -DestinationPath ..\..\..\..\$(ProjectName)Source.zip"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>

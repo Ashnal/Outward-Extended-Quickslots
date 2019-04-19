@@ -2,32 +2,52 @@
 using System.IO;
 using System.Reflection;
 using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Logging;
 using Harmony;
-using UnityEngine;
 
 namespace ExtendedQuickslots
 {
-    [BepInPlugin("com.ashnal.outward.extendedquickslots", "Extended Quickslots", "1.1.0")]
+    [BepInPlugin("com.Ashnal.Outward.ExtendedQuickslots", "Extended Quickslots", "1.1.0")]
     public class ExtendedQuickslots : BaseUnityPlugin
     {
-        public static int numSlots = 8;
-        public static bool centerBar = false;
-        public new static ManualLogSource Logger;
+        internal new static ManualLogSource Logger;
+        internal static ConfigWrapper<int> NumberOfExtraSlotsToAdd;
+        internal static ConfigWrapper<bool> CenteredQuickslotUI;
+        internal static ConfigWrapper<float> QuickslotUIScale;
 
         public ExtendedQuickslots()
         {
             Logger = base.Logger;
-            string[] configFileContents = File.ReadAllLines(@"BepInEx/config/ExtendedQuickslots_Config.txt");
+        }
 
-            if (!Int32.TryParse(configFileContents[0].Substring(9), out numSlots))
-            {
-                Logger.LogWarning("BepinEx\\config\\ExtendedQuickslots_Config.txt numSlots= line was unable to be read. The first line of this file should contain numSlots= followed by an integer. Example: numSlots=12. Defaulting to 8.");
-            }
-            if (!bool.TryParse(configFileContents[1].Substring(10), out centerBar))
-            {
-                Logger.LogWarning("BepinEx\\config\\ExtendedQuickslots_Config.txt centerBar= line was unable to be read. The second line of this file should contain centerBar= followed by either true or false. Example: numSlots=true. Defaulting to false.");
-            }
+        public void Awake()
+        {
+            Logger.LogInfo("Grabbing config from " + Config.ConfigFilePath);
+
+            NumberOfExtraSlotsToAdd = Config.Wrap(
+                "Quickslots",
+                "NumberOfExtraSlotsToAdd",
+                "The number of EXTRA slots to add to the existing 8. So 8 here would result in 16 total slots.",
+                8);
+            Logger.LogInfo("\tNumberOfExtraSlotsToAdd = " + NumberOfExtraSlotsToAdd.Value);
+
+            CenteredQuickslotUI = Config.Wrap(
+                "Quickslots",
+                "CenteredQuickslotUI",
+                "If true, this will horizontally center the quickslot UI.",
+                false);
+            Logger.LogInfo("\tCenteredQuickslotUI = " + CenteredQuickslotUI.Value);
+
+            //Waiting for float implementation
+            /*
+            QuickslotUIScale = Config.Wrap(
+                "Quickslots",
+                "QuickslotUIScale",
+                "This can scale the quickslot UI smaller or larger. The scale is multiplied by this value, so 0.75 for example would shrink it, and 1.5 would enlarge it.",
+                1f);
+            Logger.LogInfo("\tCenteredQuickslotUI = " + CenteredQuickslotUI);
+            */
 
             var harmony = HarmonyInstance.Create("com.ashnal.outward.extendedquickslots");
             harmony.PatchAll(Assembly.GetExecutingAssembly());

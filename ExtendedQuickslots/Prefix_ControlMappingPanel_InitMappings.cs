@@ -36,7 +36,7 @@ namespace ExtendedQuickslots
                         {
                             ExtendedQuickslots.Logger.LogInfo("Mapping Quickslots ...");
                             // Loop through our 8 actions we added via ReWired and create the mapping objects for them.
-                            for (int i = 0; i < ExtendedQuickslots.numSlots; i++)
+                            for (int i = 0; i < ExtendedQuickslots.NumberOfExtraSlotsToAdd.Value; i++)
                             {
                                 ExtendedQuickslots.Logger.LogDebug("\tMapping " + string.Format("QS_Instant{0}", i + 12));
                                 var aid = ReInput.mapping.GetActionId(string.Format("QS_Instant{0}", i + 12));

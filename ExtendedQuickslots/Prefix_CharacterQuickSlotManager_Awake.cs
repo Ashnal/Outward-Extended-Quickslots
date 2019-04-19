@@ -14,7 +14,7 @@ namespace ExtendedQuickslots
             ___m_character = __instance.GetComponent<Character>();
             ___m_quickslotTrans = __instance.transform.Find("QuickSlots");
             // Add our 8 QuickSlots
-            for (var x = 0; x < ExtendedQuickslots.numSlots; ++x)
+            for (var x = 0; x < ExtendedQuickslots.NumberOfExtraSlotsToAdd.Value; ++x)
             {
                 // Create a GameObject with a name that shouldn't overlap with anything else
                 GameObject gameObject = new GameObject(string.Format("EXQS_{0}", x));

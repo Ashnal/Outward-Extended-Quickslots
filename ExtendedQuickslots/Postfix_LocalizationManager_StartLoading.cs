@@ -11,7 +11,7 @@ namespace ExtendedQuickslots
         [HarmonyPostfix]
         public static void StartLoadingPostfix(LocalizationManager __instance, ref Dictionary<string, string> ___m_generalLocalization)
         {
-            for (int x = 0; x < ExtendedQuickslots.numSlots; x++)
+            for (int x = 0; x < ExtendedQuickslots.NumberOfExtraSlotsToAdd.Value; x++)
             {
                 // Our actions start at 12, but we want them to be displayed starting from 9
                 ___m_generalLocalization.Add(string.Format("InputAction_QS_Instant{0}", x + 12), string.Format("Quick Slot {0}", x + 9));
