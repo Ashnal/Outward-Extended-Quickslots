@@ -76,7 +76,7 @@ namespace ExtendedQuickslots
                         //Debug.Log(string.Format("Checking QS_Instant{0}: {1}", x+12, inputRecieved));
                         if (inputRecieved)
                         {
-                            Debug.Log("ExtendedQuickslots - UpdateQuickSlotsPatch() QS_Instant" + (x + 12));
+                            ExtendedQuickslots.Logger.LogDebug("UpdateQuickSlotsPatch() QS_Instant" + (x + 12));
                             __instance.Character.QuickSlotMngr.QuickSlotInput(x + 11);
                             break;
                         }

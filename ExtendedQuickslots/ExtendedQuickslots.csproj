@@ -38,8 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\ModDependencies\0Harmony.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\Outward_Data\Managed\Assembly-CSharp.dll</HintPath>
@@ -49,17 +48,8 @@
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\Outward_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Mono.Cecil">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\bin\Mono.Cecil.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MonoMod">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\bin\MonoMod.exe</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Partiality">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\bin\Partiality.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="BepInEx">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\BepInEx\core\BepInEx.dll</HintPath>
     </Reference>
     <Reference Include="Rewired_Core">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\Outward_Data\Managed\Rewired_Core.dll</HintPath>
@@ -92,13 +82,15 @@ echo InstallPath: "%25installPath%25"
 SET buildMods=..\..\..\..\Mods
 echo copying $(TargetFileName) to "%25buildMods%25"
 copy $(TargetFileName) "%25buildMods%25"
-echo copying "%25buildMods%25\*" to "%25installPath%25\Mods"
-copy "%25buildMods%25\*" "%25installPath%25\Mods"
+echo copying "%25buildMods%25\*" to "%25installPath%25\BepInEx\plugins"
+copy "%25buildMods%25\*" "%25installPath%25\BepInEx\plugins"
 powershell.exe -nologo -noprofile -command "gci ..\..\..\..\..\$(ProjectName) | ? Name -NE source | Compress-Archive -DestinationPath ..\..\..\..\$(ProjectName).zip"
 powershell.exe -nologo -noprofile -command "Compress-Archive -Path ..\..\..\..\..\$(ProjectName)\Mods,..\..\..\..\..\$(ProjectName)\ModDependencies -DestinationPath ..\..\..\..\$(ProjectName)DllsOnly.zip"
 powershell.exe -nologo -noprofile -command "Compress-Archive -Path ..\..\..\..\..\$(ProjectName)\source -DestinationPath ..\..\..\..\$(ProjectName)Source.zip"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>del ..\..\..\..\$(ProjectName).zip</PreBuildEvent>
+    <PreBuildEvent>del ..\..\..\..\$(ProjectName).zip
+del ..\..\..\..\$(ProjectName)DllsOnly.zip
+del ..\..\..\..\$(ProjectName)Source.zip</PreBuildEvent>
   </PropertyGroup>
 </Project>

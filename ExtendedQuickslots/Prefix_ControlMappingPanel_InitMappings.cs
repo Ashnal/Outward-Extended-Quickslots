@@ -1,6 +1,7 @@
 ﻿using Harmony;
 using Rewired;
 using UnityEngine;
+using BepInEx;
 
 namespace ExtendedQuickslots
 {
@@ -30,14 +31,14 @@ namespace ExtendedQuickslots
                         KeyboardMap keyboardMapInstance = ReInput.mapping.GetKeyboardMapInstance(inputMapCategory.id, 0);
                         MouseMap mouseMapInstance = ReInput.mapping.GetMouseMapInstance(inputMapCategory.id, 0);
                         // We know this name from debugging, or we can dump it.
-                        Debug.Log("Extended Quickslots - InitMappingsPrefix() inputMapCategory = " + inputMapCategory.name);
+                        ExtendedQuickslots.Logger.LogDebug("InitMappingsPrefix() inputMapCategory = " + inputMapCategory.name);
                         if (inputMapCategory.name == "QuickSlot")
                         {
-                            Debug.Log("ExtendedQuickslots - Mapping Quickslots ...");
+                            ExtendedQuickslots.Logger.LogInfo("Mapping Quickslots ...");
                             // Loop through our 8 actions we added via ReWired and create the mapping objects for them.
                             for (int i = 0; i < ExtendedQuickslots.numSlots; i++)
                             {
-                                Debug.Log("\tMapping " + string.Format("QS_Instant{0}", i + 12));
+                                ExtendedQuickslots.Logger.LogDebug("\tMapping " + string.Format("QS_Instant{0}", i + 12));
                                 var aid = ReInput.mapping.GetActionId(string.Format("QS_Instant{0}", i + 12));
                                 ElementAssignment elementAssignment = new ElementAssignment(KeyCode.None, ModifierKeyFlags.None, aid, Pole.Positive);
                                 keyboardMapInstance.CreateElementMap(elementAssignment, out ActionElementMap actionElementMap);
@@ -49,13 +50,13 @@ namespace ExtendedQuickslots
                             ElementAssignment elementAssignment;
                             int aid;
 
-                            Debug.Log("\tMapping Sit emote");
+                            ExtendedQuickslots.Logger.LogInfo("Mapping Sit emote");
                             aid = ReInput.mapping.GetActionId("Sit_Emote");
                             elementAssignment = new ElementAssignment(KeyCode.None, ModifierKeyFlags.None, aid, Pole.Positive);
                             keyboardMapInstance.CreateElementMap(elementAssignment, out ActionElementMap actionElementMap);
                             mouseMapInstance.CreateElementMap(elementAssignment, out actionElementMap);
 
-                            Debug.Log("\tMapping Alternate Idle Emote");
+                            ExtendedQuickslots.Logger.LogInfo("Mapping Alternate Idle Emote");
                             aid = ReInput.mapping.GetActionId("Alternate_Idle_Emote");
                             elementAssignment = new ElementAssignment(KeyCode.None, ModifierKeyFlags.None, aid, Pole.Positive);
                             keyboardMapInstance.CreateElementMap(elementAssignment, out actionElementMap);

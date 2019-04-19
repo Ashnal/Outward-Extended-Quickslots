@@ -13,7 +13,7 @@ namespace ExtendedQuickslots
         [HarmonyPrefix]
         public static bool InitializePrefix(InputManager_Base __instance)
         {
-            Debug.Log("Extended Quickslots - Prefix()");
+            ExtendedQuickslots.Logger.LogDebug("InitializePrefix()");
             InputAction inputAction;
             List<InputAction> actions_Copy;
             Traverse inputActionTrav;
@@ -41,7 +41,7 @@ namespace ExtendedQuickslots
                 inputActionTrav.Property("userAssignable").SetValue(true);
                 inputActionTrav.Property("behaviorId").SetValue(0);
 
-                Debug.Log("ExtendedQuickslots - InitializePatch() inputAction:\r\n\tname: " + inputAction.name + "\r\n\tdescriptiveName: " + inputAction.descriptiveName + "\r\n\tuserAssignable: " + inputAction.userAssignable + "\r\n\tbehaviorId: " + inputAction.behaviorId);
+                ExtendedQuickslots.Logger.LogDebug("ExtendedQuickslots - InitializePatch() inputAction:\r\n\tname: " + inputAction.name + "\r\n\tdescriptiveName: " + inputAction.descriptiveName + "\r\n\tuserAssignable: " + inputAction.userAssignable + "\r\n\tbehaviorId: " + inputAction.behaviorId);
             }
 
             __instance.userData.AddAction(4); //Sit emote
