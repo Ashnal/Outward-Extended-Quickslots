@@ -49,8 +49,13 @@ namespace ExtendedQuickslots
             Logger.LogInfo("\tCenteredQuickslotUI = " + CenteredQuickslotUI);
             */
 
-            var harmony = HarmonyInstance.Create("com.ashnal.outward.extendedquickslots");
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
+            On.QuickSlotPanel.Update += new On.QuickSlotPanel.hook_Update(Hooks.QuickSlotPanel_Update);
+            On.KeyboardQuickSlotPanel.InitializeQuickSlotDisplays += new On.KeyboardQuickSlotPanel.hook_InitializeQuickSlotDisplays(Hooks.KeyboardQuickSlotPanel_InitializeQuickSlotDisplays);
+            On.CharacterQuickSlotManager.Awake += new On.CharacterQuickSlotManager.hook_Awake(Hooks.CharacterQuickSlotManager_Awake);
+            On.LocalCharacterControl.UpdateQuickSlots += new On.LocalCharacterControl.hook_UpdateQuickSlots(Hooks.LocalCharacterControl_UpdateQuickSlots);
+            On.ControlMappingPanel.InitSections += new On.ControlMappingPanel.hook_InitSections(Hooks.ControlMappingPanel_InitSections);
+            On.Rewired.InputManager_Base.Initialize += new On.Rewired.InputManager_Base.hook_Initialize(Hooks.InputManager_Base_Initialize);
+            On.LocalizationManager.StartLoading += new On.LocalizationManager.hook_StartLoading(Hooks.LocalizationManager_StartLoading);
         }
     }
 }

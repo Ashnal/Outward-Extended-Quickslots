@@ -6,12 +6,9 @@ using System.Collections.Generic;
 namespace ExtendedQuickslots
 {
     //only place we can add actions
-    [HarmonyPatch(typeof(InputManager_Base))]
-    [HarmonyPatch("Initialize")]
-    public static class Prefix_InputManager_Base_Initialize
+    static partial class Hooks
     {
-        [HarmonyPrefix]
-        public static bool InitializePrefix(InputManager_Base __instance)
+        public static void InputManager_Base_Initialize(On.Rewired.InputManager_Base.orig_Initialize orig, Rewired.InputManager_Base self)
         {
             ExtendedQuickslots.Logger.LogDebug("InitializePrefix()");
             InputAction inputAction;
@@ -21,10 +18,10 @@ namespace ExtendedQuickslots
             for (var x = 0; x < ExtendedQuickslots.NumberOfExtraSlotsToAdd.Value; ++x)
             {
                 // Add an action to the QuickSlot category (see 'Rewired_actions.txt')
-                __instance.userData.AddAction(2);
+                self.userData.AddAction(2);
 
-                // This is how we have to get the action we just added
-                actions_Copy = __instance.userData.GetActions_Copy();
+                // Get a reference to the added action
+                actions_Copy = self.userData.GetActions_Copy();
                 inputAction = actions_Copy[actions_Copy.Count - 1];
 
                 //Debug.Log("ExtendedQuickslots - InitializePatch() before edit inputAction:\r\n\tname: " + inputAction.name + "\r\n\tdescriptiveName: " + inputAction.descriptiveName + "\r\n\tuserAssignable: " + inputAction.userAssignable + "\r\n\tbehaviorId: " + inputAction.behaviorId);
@@ -44,9 +41,9 @@ namespace ExtendedQuickslots
                 ExtendedQuickslots.Logger.LogDebug("ExtendedQuickslots - InitializePatch() inputAction:\r\n\tname: " + inputAction.name + "\r\n\tdescriptiveName: " + inputAction.descriptiveName + "\r\n\tuserAssignable: " + inputAction.userAssignable + "\r\n\tbehaviorId: " + inputAction.behaviorId);
             }
 
-            __instance.userData.AddAction(4); //Sit emote
-            __instance.userData.AddAction(4); //alternate idle
-            actions_Copy = __instance.userData.GetActions_Copy();
+            self.userData.AddAction(4); //Sit emote
+            self.userData.AddAction(4); //alternate idle
+            actions_Copy = self.userData.GetActions_Copy();
 
             inputAction = actions_Copy[actions_Copy.Count - 2];
             inputActionTrav = Traverse.Create(inputAction);
@@ -62,7 +59,7 @@ namespace ExtendedQuickslots
             inputActionTrav.Property("userAssignable").SetValue(true);
             inputActionTrav.Property("behaviorId").SetValue(0);
 
-            return true;
+            orig(self);
         }
     }
 }

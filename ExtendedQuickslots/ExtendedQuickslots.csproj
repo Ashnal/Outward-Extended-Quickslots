@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,17 +40,26 @@
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\BepInEx\core\0Harmony.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\Outward_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\Outward_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Assembly-CSharp_publicized">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\Outward_Data\Managed\publicized_assemblies\Assembly-CSharp_publicized.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="BepInEx">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\BepInEx\core\BepInEx.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="HOOKS-Assembly-CSharp">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\BepInEx\plugins\PartialityWrapper\HOOKS-Assembly-CSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MMHOOK_Rewired_Core">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\BepInEx\plugins\MonoMod\MMHOOK_Rewired_Core.dll</HintPath>
     </Reference>
     <Reference Include="Rewired_Core">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Outward\Outward_Data\Managed\Rewired_Core.dll</HintPath>
@@ -62,13 +72,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Prefix_QuickSlotPanel_Update.cs" />
-    <Compile Include="Prefix_KeyboardQuickSlotPanel_InitializeQuickSlotDisplays.cs" />
-    <Compile Include="Postfix_LocalizationManager_StartLoading.cs" />
-    <Compile Include="Prefix_ControlMappingPanel_InitMappings.cs" />
-    <Compile Include="Prefix_InputManager_Base_Initialize.cs" />
-    <Compile Include="Prefix_LocalCharacterControl_UpdateQuickSlots.cs" />
-    <Compile Include="Prefix_CharacterQuickSlotManager_Awake.cs" />
+    <Compile Include="Hooks_QuickSlotPanel_Update.cs" />
+    <Compile Include="Hooks_KeyboardQuickSlotPanel_InitializeQuickSlotDisplays.cs" />
+    <Compile Include="Hooks_LocalizationManager_StartLoading.cs" />
+    <Compile Include="Hooks_ControlMappingPanel_InitMappings.cs" />
+    <Compile Include="Hooks_InputManager_Base_Initialize.cs" />
+    <Compile Include="Hooks_LocalCharacterControl_UpdateQuickSlots.cs" />
+    <Compile Include="Hooks_CharacterQuickSlotManager_Awake.cs" />
     <Compile Include="ExtendedQuickslots.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -79,11 +89,11 @@ echo AppID: %25APPID%25
 SET command=%25systemroot%25\sysnative\WindowsPowerShell\v1.0\powershell.exe -command "Get-ItemPropertyValue 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App %25APPID%25' -Name InstallLocation" 
 for /f "tokens=*" %25%25i in ('%25command%25') do set installPath=%25%25i
 echo InstallPath: "%25installPath%25"
-SET buildMods=..\..\..\..\BepInEx\plugins
-echo copying $(TargetFileName) to "%25buildMods%25"
-copy $(TargetFileName) "%25buildMods%25"
+SET buildMods=..\..\..\..\BepInEx\plugins\$(ProjectName)
+echo copying $(TargetDir) to %25buildMods%25
+copy $(TargetDir)\* %25buildMods%25\
 echo copying "%25buildMods%25\*" to "%25installPath%25\BepInEx\plugins"
-copy "%25buildMods%25\*" "%25installPath%25\BepInEx\plugins"
+copy "%25buildMods%25" "%25installPath%25\BepInEx\plugins\$(ProjectName)"
 powershell.exe -nologo -noprofile -command "Compress-Archive -Path ..\..\..\..\..\$(ProjectName)\BepInEx -DestinationPath ..\..\..\..\$(ProjectName).zip"
 powershell.exe -nologo -noprofile -command "Compress-Archive -Path ..\..\..\..\..\$(ProjectName)\source -DestinationPath ..\..\..\..\$(ProjectName)Source.zip"</PostBuildEvent>
   </PropertyGroup>
